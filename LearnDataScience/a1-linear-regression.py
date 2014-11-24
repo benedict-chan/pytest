@@ -7,3 +7,12 @@ import matplotlib.pyplot as plt
 # import the cleaned up dataset into a pandas data frame
 df = pd.read_csv('../datasets/loanf.csv')
 
+# extract FICO Score and Interest Rate and plot them
+# FICO Score on x-axis, Interest Rate on y-axis
+i_rate = df['Interest.Rate']
+fico = df['FICO.Score']
+the_plot = plt.plot(fico,i_rate,'o')
+ax = plt.gca() #get current axes handle of the plot
+
+xt = ax.set_xlabel('FICO Score')
+yt = ax.set_ylabel('Interest Rate %')
