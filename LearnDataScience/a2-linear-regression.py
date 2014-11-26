@@ -46,3 +46,7 @@ clean_df = pd.read_csv('../datasets/loansData.csv'
 	,'FICO.Range': fico_converter})
 clean_df['FICO.Range'].head()
 
+
+#remove strange monthly income
+clean_df = clean_df[clean_df['Monthly.Income'] < 100000]
+
