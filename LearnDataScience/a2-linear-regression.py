@@ -13,8 +13,18 @@ df.dtypes  #check column's datatype
 df.describe()  # check information for numeric columns
 
 
-#cleaning data
+#cleaning data exercise 
 #clean interest rate
+#check if all rows contains %
+len(df[ ( df['Interest.Rate'].str.contains('%') == False) ] )
 interest_rate_converter = lambda x: float(x.replace('%', ''))
 clean_df = pd.read_csv('../datasets/loansData.csv', converters={'Interest.Rate': interest_rate_converter})
 clean_df['Interest.Rate'].head()
+
+#clean loan length
+#check if all rows contains %
+df[df['Loan.Length'].str.contains('months') == False].head()
+loan_length_converter = lambda x: float(x.replace('months', ''))
+clean_df = pd.read_csv('../datasets/loansData.csv'
+	, converters={'Interest.Rate': interest_rate_converter, 'Loan.Length': loan_length_converter})
+clean_df['Loan.Length'].head()
