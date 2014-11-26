@@ -8,3 +8,13 @@ import matplotlib.pyplot as plt
 # import the cleaned up dataset into a pandas data frame
 df = pd.read_csv('../datasets/loansData.csv')
 
+#Inspect the DataFrame
+df.dtypes  #check column's datatype
+df.describe()  # check information for numeric columns
+
+
+#cleaning data
+#clean interest rate
+interest_rate_converter = lambda x: float(x.replace('%', ''))
+clean_df = pd.read_csv('../datasets/loansData.csv', converters={'Interest.Rate': interest_rate_converter})
+clean_df['Interest.Rate'].head()
