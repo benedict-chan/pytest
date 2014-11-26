@@ -33,3 +33,16 @@ clean_df = pd.read_csv('../datasets/loansData.csv'
 	,'Debt.To.Income.Ratio': interest_rate_converter
 	, 'Loan.Length': loan_length_converter})
 clean_df['Loan.Length'].head()
+
+
+
+#clean FICO.Range, use lower limit
+len(df[ ( df['Interest.Rate'].str.contains('-') == False) ] )
+fico_converter = lambda x: float(x.split('-')[0])
+clean_df = pd.read_csv('../datasets/loansData.csv'
+	, converters={'Interest.Rate': interest_rate_converter
+	,'Debt.To.Income.Ratio': interest_rate_converter
+	, 'Loan.Length': loan_length_converter
+	,'FICO.Range': fico_converter})
+clean_df['FICO.Range'].head()
+
