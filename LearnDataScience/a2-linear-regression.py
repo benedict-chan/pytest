@@ -36,17 +36,27 @@ clean_df['Loan.Length'].head()
 
 
 
-#clean FICO.Range, use lower limit
-len(df[ ( df['Interest.Rate'].str.contains('-') == False) ] )
-fico_converter = lambda x: float(x.split('-')[0])
+#add FICO.Score column, use lower limit
+len(df[ ( df['FICO.Range'].str.contains('-') == False) ] )
+fico_function = lambda x: float(x.split('-')[0])
 clean_df = pd.read_csv('../datasets/loansData.csv'
 	, converters={'Interest.Rate': interest_rate_converter
 	,'Debt.To.Income.Ratio': interest_rate_converter
-	, 'Loan.Length': loan_length_converter
-	,'FICO.Range': fico_converter})
-clean_df['FICO.Range'].head()
+	, 'Loan.Length': loan_length_converter})
+clean_df['FICO.Score'] = clean_df['FICO.Range'].map(fico_function)
+
+
+#finalize the result
+
+#rename column
+clean_df = clean_df.rename(columns={'Amount.Funded.By.Investors':'Loan.Amount'})
+
+final_columns = ["Interest.Rate","FICO.Score","Loan.Length","Monthly.Income","Loan.Amount"]
+
+final_df = clean_df[final_columns]
 
 
 #remove strange monthly income
-clean_df = clean_df[clean_df['Monthly.Income'] < 100000]
+final_df = final_df[final_df['Monthly.Income'] < 100000]
 
+#final_df.to_csv('../datasets/loansData_cleaned.csv')
