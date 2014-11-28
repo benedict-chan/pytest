@@ -49,10 +49,12 @@ clean_df['FICO.Score'] = clean_df['FICO.Range'].map(fico_function)
 #finalize the result
 
 #rename column
-clean_df = clean_df.rename(columns={'Amount.Funded.By.Investors':'Loan.Amount'})
+#clean_df = clean_df.rename(columns={'Amount.Funded.By.Investors':'Loan.Amount'})
+clean_df = clean_df.rename(columns={'Amount.Requested':'Loan.Amount'})
 
 #create a new index column
-clean_df['NewIndex'] = pd.Series(range(1, clean_df['Amount.Requested'].count()+1), index=clean_df.index)
+#clean_df['NewIndex'] = pd.Series(range(1, clean_df['Amount.Requested'].count()+1), index=clean_df.index)
+clean_df['NewIndex'] = pd.Series(range(1, clean_df['Amount.Funded.By.Investors'].count()+1), index=clean_df.index)
 #resign index
 clean_df = clean_df.set_index('NewIndex')
 
@@ -64,6 +66,14 @@ final_df = clean_df[final_columns]
 #remove strange monthly income
 final_df = final_df[final_df['Monthly.Income'] < 100000]
 
-final_df.head()
+#final_df.head()
 
-#final_df.to_csv('../datasets/loansData_cleaned.csv')
+final_df.to_csv('../datasets/loansData_cleaned.csv')
+
+
+#Check if the result downloaded is the same as us
+checking_df = pd.read_csv('../datasets/loanf.csv')
+checking_df = checking_df.sort_index()
+checking_df.index.name = 'NewIndex'
+checking_df.to_csv('../datasets/loanf_sorted.csv')
+
