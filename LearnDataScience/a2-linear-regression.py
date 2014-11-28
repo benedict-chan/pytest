@@ -51,12 +51,19 @@ clean_df['FICO.Score'] = clean_df['FICO.Range'].map(fico_function)
 #rename column
 clean_df = clean_df.rename(columns={'Amount.Funded.By.Investors':'Loan.Amount'})
 
+#create a new index column
+clean_df['NewIndex'] = pd.Series(range(1, clean_df['Amount.Requested'].count()+1), index=clean_df.index)
+#resign index
+clean_df = clean_df.set_index('NewIndex')
+
+
+#filter columns
 final_columns = ["Interest.Rate","FICO.Score","Loan.Length","Monthly.Income","Loan.Amount"]
-
 final_df = clean_df[final_columns]
-
 
 #remove strange monthly income
 final_df = final_df[final_df['Monthly.Income'] < 100000]
+
+final_df.head()
 
 #final_df.to_csv('../datasets/loansData_cleaned.csv')
