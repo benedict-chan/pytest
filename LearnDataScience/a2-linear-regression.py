@@ -67,13 +67,24 @@ final_df = clean_df[final_columns]
 final_df = final_df[final_df['Monthly.Income'] < 100000]
 
 #final_df.head()
-
-final_df.to_csv('../datasets/loansData_cleaned.csv')
+#final_df.to_csv('../datasets/loansData_cleaned.csv')
 
 
 #Check if the result downloaded is the same as us
 checking_df = pd.read_csv('../datasets/loanf.csv')
 checking_df = checking_df.sort_index()
 checking_df.index.name = 'NewIndex'
-checking_df.to_csv('../datasets/loanf_sorted.csv')
+#checking_df.to_csv('../datasets/loanf_sorted.csv')
 
+
+#it looks like a magic!
+ne_stacked = (final_df != checking_df).stack()
+
+ne_stacked = pd.concat([final_df, checking_df])
+ne_stacked = ne_stacked.reset_index(drop=True)
+
+df_gpby = ne_stacked.groupby(list(ne_stacked.columns))
+
+idx = [x[0] for x in df_gpby.groups.values() if len(x) == 1]
+
+ne_stacked.reindex(idx)
