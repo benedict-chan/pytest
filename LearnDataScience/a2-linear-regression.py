@@ -17,21 +17,21 @@ df.describe()  # check information for numeric columns
 #clean interest rate
 #check if all rows contains %
 len(df[ ( df['Interest.Rate'].str.contains('%') == False) ] )
-interest_rate_converter = lambda x: float(x.replace('%', ''))
+remove_percent_converter = lambda x: float(x.replace('%', ''))
 clean_df = pd.read_csv('../datasets/loansData.csv'
-	, converters={'Interest.Rate': interest_rate_converter
-	,'Debt.To.Income.Ratio': interest_rate_converter})
+	, converters={'Interest.Rate': remove_percent_converter
+	,'Debt.To.Income.Ratio': remove_percent_converter})
 clean_df['Interest.Rate'].head()
 clean_df['Debt.To.Income.Ratio'].head()
 
 #clean loan length
 #check if all rows contains %
 df[df['Loan.Length'].str.contains('months') == False].head()
-loan_length_converter = lambda x: float(x.replace('months', ''))
+remove_month_converter = lambda x: float(x.replace('months', ''))
 clean_df = pd.read_csv('../datasets/loansData.csv'
-	, converters={'Interest.Rate': interest_rate_converter
-	,'Debt.To.Income.Ratio': interest_rate_converter
-	, 'Loan.Length': loan_length_converter})
+	, converters={'Interest.Rate': remove_percent_converter
+	,'Debt.To.Income.Ratio': remove_percent_converter
+	, 'Loan.Length': remove_month_converter})
 clean_df['Loan.Length'].head()
 
 
@@ -40,9 +40,9 @@ clean_df['Loan.Length'].head()
 len(df[ ( df['FICO.Range'].str.contains('-') == False) ] )
 fico_function = lambda x: float(x.split('-')[0])
 clean_df = pd.read_csv('../datasets/loansData.csv'
-	, converters={'Interest.Rate': interest_rate_converter
-	,'Debt.To.Income.Ratio': interest_rate_converter
-	, 'Loan.Length': loan_length_converter})
+	, converters={'Interest.Rate': remove_percent_converter
+	,'Debt.To.Income.Ratio': remove_percent_converter
+	, 'Loan.Length': remove_month_converter})
 clean_df['FICO.Score'] = clean_df['FICO.Range'].map(fico_function)
 
 
