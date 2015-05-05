@@ -17,6 +17,9 @@ pattern = "__NOTOC__[\W{}+]"
 re.split(pattern, text)
 content = re.split(pattern, text)[1]
 
-
+#Use findall here instead of split, because there's a lot of TEXT in between {{  }} XX {{ }}
 re.findall(r"\{\{[^\{]*\}\}", content)
 
+
+sline=re.findall(r"\{\{[^\{]*\}\}", content)[0]
+re.split(r"\n\|", sline)
