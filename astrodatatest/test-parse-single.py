@@ -18,4 +18,5 @@ re.split(pattern, text)
 content = re.split(pattern, text)[1]
 
 
+re.findall(r"\{\{[^\{]*\}\}", content)
 
