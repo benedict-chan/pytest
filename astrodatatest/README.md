@@ -5,9 +5,21 @@
 http://www.astro.com/wiki/astro-databank/api.php?format=jsonfm&prop=revisions&rvprop=content&titles=Jobs%2C_Steve&action=raw&templates=expand
 http://www.astro.com/wiki/astro-databank/api.php
 http://www.astro.com/wiki/astro-databank/api.php?action=query&format=json&prop=revisions&rvprop=content&titles=Jobs%2C_Steve
+http://www.astro.com/wiki/astro-databank/api.php?action=query&format=json&prop=revisions&rvprop=content&pageids=29562
 http://www.astro.com/wiki/astro-databank/api.php?action=query&format=xml&prop=revisions&rvprop=content&titles=Jobs%2C_Steve
 http://www.astro.com/wiki/astro-databank/api.php?format=jsonfm&action=parse&pageid=29562
 http://www.astro.com/wiki/astro-databank/api.php?action=query&prop=revisions&rvprop=content&titles=Jobs%2C_Steve
+
+
+#### Categories
+http://www.astro.com/wiki/astro-databank/api.php?action=query&list=allcategories
+accontinue="0050_deaths" 
+http://www.astro.com/wiki/astro-databank/api.php?action=query&list=allcategories&accontinue=0050_deaths
+
+
+#### Pages
+http://www.astro.com/wiki/astro-databank/api.php?action=query&list=allpages
+http://www.astro.com/wiki/astro-databank/api.php?action=query&list=allpages&aplimit=500
 
 
 ### Templates

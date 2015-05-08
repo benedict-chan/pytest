@@ -48,3 +48,22 @@ with open('single_data.json', 'w') as f:
 #url = "http://www.astro.com/wiki/astro-databank/api.php?%s" % qs
 
 
+#Test requests by pageids
+#http://www.astro.com/wiki/astro-databank/api.php?action=query&format=json&prop=revisions&rvprop=content&pageids=29562
+
+pageid = 29562
+
+params = { 
+    "format":"json", 
+    "action":"query", 
+    "prop":"revisions", 
+    "rvprop":"content" 
+}
+params.update({"pageids":pageid})
+
+api_url = "http://www.astro.com/wiki/astro-databank/api.php?"
+
+resp = requests.get(url=api_url, params=params)
+single_data = resp.json()
+with open('single_data_pageid.json', 'w') as f:
+    json.dump(single_data, f)
