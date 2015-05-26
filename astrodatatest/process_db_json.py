@@ -69,7 +69,7 @@ def process_user_linked(domain_id, template_name, record_dict):
 	  'ASTRODATABANK_rel': "relationship",
 	}
 	table_name = db_mapper[template_name]
-	print "process %s, just save to db %s", (template_name, table_name)
+	print "process %s, just save to db %s" % (template_name, table_name)
 	pass
 
 def process_category(domain_id, template_name, record_dict):
