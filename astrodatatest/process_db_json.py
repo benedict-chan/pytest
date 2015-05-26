@@ -6,7 +6,7 @@ import re
 import traceback
 
 def start_process():
-	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 100")
+	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 5")
 	for page_id_dict in page_id_list:
 		page_id = page_id_dict["page_id"]
 		db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % page_id)
@@ -68,7 +68,7 @@ def process_user_linked(domain_id, template_name, record_dict):
 	  'ASTRODATABANK_evn': "event",
 	  'ASTRODATABANK_rel': "relationship",
 	}
-	table_name = db_mapper[db_mapper]
+	table_name = db_mapper[template_name]
 	print "process %s, just save to db %s", (template_name, table_name)
 	pass
 
