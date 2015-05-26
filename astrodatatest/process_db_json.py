@@ -73,7 +73,8 @@ def process_user_linked(domain_id, template_name, record_dict):
 	  'ASTRODATABANK_rel': "relationship",
 	}
 	table_name = db_mapper[template_name]
-	id_column_name = "%s_id" % db_mapper[template_name] 
+	id_column_name = "%s_id" % db_mapper[template_name]
+	record_dict.update({id_column_name:record_dict["CodeID"]})
 	print "process %s, just save to db %s, key is %s" % (template_name, table_name, id_column_name)
 	scraperwiki.sqlite.save(unique_keys=[id_column_name], data=record_dict, table_name=table_name)
 	pass
