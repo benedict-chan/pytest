@@ -3,6 +3,7 @@ import json
 from pprint import pprint
 
 import re
+import traceback
 
 def start_process():
 	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 1")
@@ -51,6 +52,7 @@ def parse_json_str_for_page_id(spage_id, data):
 			store_dict_to_db(domain_id, template_name, record_dict)
 	except Exception, e:
 		print 'Fail parsing page %s' % page_id
+		traceback.print_exc()
 	finally:
 		pass
 
@@ -91,6 +93,7 @@ def store_dict_to_db(domain_id, template_name, record_dict):
 		pass
 	except Exception, e:
 		print 'Fail storing to db domain_id %s, template_name %s' % (domain_id, template_name)
+		traceback.print_exc()
 	else:
 		pass
 	finally:
