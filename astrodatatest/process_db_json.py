@@ -37,7 +37,6 @@ def parse_json_str_for_page_id(spage_id, data):
 		#Test of spliting each line
 		#sline=re.findall(r"\{\{[^\{]*\}\}", content)[0]
 		#re.split(r"\n\|", sline)
-
 		#sline = template_lines[0]
 		for sline in template_lines:
 			template_split = re.split(r"\n\|", sline)
@@ -49,7 +48,9 @@ def parse_json_str_for_page_id(spage_id, data):
 			record_string_list = template_split[1:] #These record string are in the format of ["X1=YY", "X2=ZZ"...]
 			record_list_list = map(lambda x: re.split("=", x) , record_string_list) #These list list is [ ["X1", "YY"], ["X2", ZZ"] , ...]
 			record_dict = dict(record_list_list)
-			store_dict_to_db(domain_id, template_name, record_dict)
+			processed = store_dict_to_db(domain_id, template_name, record_dict)
+			pass
+		print "UPDATE data SET processed = 1 WHERE page_id = %s" % spage_id
 	except Exception, e:
 		print 'Fail parsing page %s' % page_id
 		traceback.print_exc()
@@ -94,10 +95,6 @@ def store_dict_to_db(domain_id, template_name, record_dict):
 	except Exception, e:
 		print 'Fail storing to db domain_id %s, template_name %s' % (domain_id, template_name)
 		traceback.print_exc()
-	else:
-		pass
-	finally:
-		pass
 
 if __name__ == "__main__":
 	start_process()
