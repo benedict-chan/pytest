@@ -6,7 +6,7 @@ import re
 import traceback
 
 def start_process():
-	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 1")
+	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 100")
 	for page_id_dict in page_id_list:
 		page_id = page_id_dict["page_id"]
 		db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % page_id)
@@ -74,7 +74,7 @@ def process_user_linked(domain_id, template_name, record_dict):
 
 def process_category(domain_id, template_name, record_dict):
 	record_dict.update({"category_id":record_dict["CodeID"]})
-	user_cat_relation_dict = {user_id: domain_id, category_id: record_dict["CodeID"]}
+	user_cat_relation_dict = {"user_id": domain_id, "category_id": record_dict["CodeID"]}
 	print "process_category, just save to db %s" % "category"
 	print "process_user_category, just save to db %s" % "user_category"
 	pass
