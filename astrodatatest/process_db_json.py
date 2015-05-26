@@ -6,7 +6,7 @@ import re
 import traceback
 
 def start_process():
-	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 5")
+	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 4")
 	for page_id_dict in page_id_list:
 		page_id = page_id_dict["page_id"]
 		db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % page_id)
@@ -51,6 +51,8 @@ def parse_json_str_for_page_id(spage_id, data):
 			processed = store_dict_to_db(domain_id, template_name, record_dict)
 			pass
 		print "UPDATE data SET processed = 1 WHERE page_id = %s" % spage_id
+		scraperwiki.sqlite.execute("UPDATE data SET processed = 1 WHERE page_id = %s" % spage_id)
+		scraperwiki.sqlite.commit()
 	except Exception, e:
 		print 'Fail parsing page %s' % page_id
 		traceback.print_exc()
@@ -60,6 +62,7 @@ def parse_json_str_for_page_id(spage_id, data):
 def process_user(domain_id, template_name, record_dict):
 	record_dict.update({"user_id":domain_id})
 	print "process_user, just save to db %s" % "user"
+	scraperwiki.sqlite.save(unique_keys=['user_id'], data=record_dict, table_name="user")
 	pass
 
 def process_user_linked(domain_id, template_name, record_dict):
@@ -70,13 +73,17 @@ def process_user_linked(domain_id, template_name, record_dict):
 	  'ASTRODATABANK_rel': "relationship",
 	}
 	table_name = db_mapper[template_name]
-	print "process %s, just save to db %s" % (template_name, table_name)
+	id_column_name = "%s_id" % db_mapper[template_name] 
+	print "process %s, just save to db %s, key is %s" % (template_name, table_name, id_column_name)
+	scraperwiki.sqlite.save(unique_keys=[id_column_name], data=record_dict, table_name=table_name)
 	pass
 
 def process_category(domain_id, template_name, record_dict):
 	record_dict.update({"category_id":record_dict["CodeID"]})
 	user_cat_relation_dict = {"user_id": domain_id, "category_id": record_dict["CodeID"]}
 	print "process_category, just save to db %s" % "category"
+	scraperwiki.sqlite.save(unique_keys=["category_id"], data=record_dict, table_name="category")
+	scraperwiki.sqlite.save(unique_keys=["user_id","category_id"], data=user_cat_relation_dict, table_name="user_category")
 	print "process_user_category, just save to db %s" % "user_category"
 	pass
 
@@ -90,7 +97,6 @@ def store_dict_to_db(domain_id, template_name, record_dict):
 		  'ASTRODATABANK_rel': process_user_linked,
 		  'ASTRODATABANK_cat': process_category,
 		}[template_name](domain_id, template_name, record_dict)
-		#scraperwiki.sqlite.save(unique_keys=['id'], data=data, table_name="data")
 		pass
 	except Exception, e:
 		print 'Fail storing to db domain_id %s, template_name %s' % (domain_id, template_name)
