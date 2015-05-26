@@ -86,7 +86,7 @@ def store_dict_to_db(domain_id, template_name, record_dict):
 		  'ASTRODATABANK_evn': process_user_linked,
 		  'ASTRODATABANK_rel': process_user_linked,
 		  'ASTRODATABANK_cat': process_category,
-		}[template_name](domain_id, record_dict)
+		}[template_name](domain_id, template_name, record_dict)
 		#scraperwiki.sqlite.save(unique_keys=['id'], data=data, table_name="data")
 		pass
 	except Exception, e:
