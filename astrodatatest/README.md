@@ -20,6 +20,8 @@ http://www.astro.com/wiki/astro-databank/api.php?action=query&list=allcategories
 #### Pages
 http://www.astro.com/wiki/astro-databank/api.php?action=query&list=allpages
 http://www.astro.com/wiki/astro-databank/api.php?action=query&list=allpages&aplimit=500
+apcontinue
+aplimit
 
 
 ### Templates
@@ -46,6 +48,14 @@ https://github.com/scraperwiki/scraperwiki-python
 https://classic.scraperwiki.com/docs/python/python_help_documentation/
 
 https://bitbucket.org/ScraperWiki/scraperwiki-classic/wiki/Home
+
+### ScraperWiki
+
+scraperwiki.sqlite.execute("ALTER TABLE data ADD COLUMN processed bit default 0")
+scraperwiki.sqlite.show_tables()
+
+scraperwiki.sqlite.execute("UPDATE data SET processed = 1 WHERE page_id = %s" % page_id)
+scraperwiki.sqlite.commit()
 
 
 
