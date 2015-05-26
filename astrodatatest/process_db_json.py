@@ -6,7 +6,8 @@ import re
 
 def start_process():
 	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 1")
-	for page_id in page_id_list:
+	for page_id_dict in page_id_list:
+		page_id = page_id_dict["page_id"]
 		db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % page_id)
 		json_dict = db_json_str[0]
 		json_str = json_dict["json_str"]
@@ -85,7 +86,7 @@ def store_dict_to_db(domain_id, template_name, record_dict):
 		  'ASTRODATABANK_evn': process_user_linked,
 		  'ASTRODATABANK_rel': process_user_linked,
 		  'ASTRODATABANK_cat': process_category,
-		}[value](domain_id, record_dict)
+		}[template_name](domain_id, record_dict)
 		#scraperwiki.sqlite.save(unique_keys=['id'], data=data, table_name="data")
 		pass
 	except Exception, e:
