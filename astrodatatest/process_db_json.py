@@ -9,7 +9,7 @@ import traceback
 
 
 def start_process():
-	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 1000")
+	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 10000")
 	for page_id_dict in page_id_list:
 		page_id = page_id_dict["page_id"]
 		db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % page_id)
@@ -100,6 +100,7 @@ def store_dict_to_db(domain_id, template_name, record_dict):
 		  'ASTRODATABANK_evn': process_user_linked,
 		  'ASTRODATABANK_rel': process_user_linked,
 		  'ASTRODATABANK_cat': process_category,
+		  'ASTRODATABANK_alt': lambda x,y,z : print("Not sure what is template is %s" % y)
 		}[template_name](domain_id, template_name, record_dict)
 		pass
 	except Exception, e:
