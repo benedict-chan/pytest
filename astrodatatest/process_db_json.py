@@ -9,7 +9,7 @@ import traceback
 
 
 def start_process():
-	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 10000")
+	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 2600")
 	for page_id_dict in page_id_list:
 		page_id = page_id_dict["page_id"]
 		db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % page_id)
