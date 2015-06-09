@@ -58,8 +58,19 @@ scraperwiki.sqlite.execute("UPDATE data SET processed = 1 WHERE page_id = %s" % 
 scraperwiki.sqlite.commit()
 
 
+### Error page_id
 
 <div style="display: none;">
+
+Some sql scripts to use for analysis
+
+```
+SELECT  uc.category_id, count(*) as c, cat.scat, cat.CategoryNotes from user_category uc
+inner join category cat on cat.category_id = uc.category_id
+group by uc.category_id order by c desc
+```
+
+
 
 Phonegap?
 
