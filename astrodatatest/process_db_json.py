@@ -8,8 +8,15 @@ import re
 import traceback
 
 
+def start_process_by_id(spage_id):
+	db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % spage_id)
+	json_dict = db_json_str[0]
+	json_str = json_dict["json_str"]
+	data = json.loads(json_str)
+	pass
+
 def start_process():
-	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 2600")
+	page_id_list = scraperwiki.sqlite.select(" page_id FROM data WHERE processed = 0 limit 300")
 	for page_id_dict in page_id_list:
 		page_id = page_id_dict["page_id"]
 		db_json_str = scraperwiki.sqlite.select(" json_str FROM data WHERE page_id = %s" % page_id)
@@ -30,6 +37,7 @@ def parse_json_str_for_page_id(spage_id, data):
 
 		pattern = "__NOTOC__[\W{}+]"
 		#re.split(pattern, text)
+		content = None
 		content = re.split(pattern, text)[1]
 
 		#Use findall here instead of split, because there's a lot of TEXT that we don't need in between {{  }} XX {{ }}
@@ -50,6 +58,10 @@ def parse_json_str_for_page_id(spage_id, data):
 			template_name = template_split[0]
 			record_string_list = template_split[1:] #These record string are in the format of ["X1=YY", "X2=ZZ"...]
 			record_list_list = map(lambda x: re.split("=", x) , record_string_list) #These list list is [ ["X1", "YY"], ["X2", ZZ"] , ...]
+			for test_list in record_list_list:
+				if len(test_list) > 2:
+					test_list[1:] = [''.join(test_list[1:])]
+				pass
 			record_dict = dict(record_list_list)
 			processed = store_dict_to_db(domain_id, template_name, record_dict)
 			pass
@@ -58,6 +70,9 @@ def parse_json_str_for_page_id(spage_id, data):
 		scraperwiki.sqlite.commit()
 	except Exception, e:
 		print('Fail parsing page %s' % spage_id)
+		if content:
+			pprint(content)
+			pass
 		traceback.print_exc()
 	finally:
 		pass
