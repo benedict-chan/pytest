@@ -7,9 +7,8 @@ def start_process():
     dlist = ['md5','sha1','sha224','sha256','sha384','sha512']
     for digest in dlist:
     	hashed = hmac_hash(value, key, digest, None)
-    	print '%s : %s' % (digest, hashed)
+    	print 'hmac:%s: %s' % (digest, hashed)
 	pass
-
 
 def get_digest(value):
     """
